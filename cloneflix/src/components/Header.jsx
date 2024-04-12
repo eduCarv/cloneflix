@@ -17,7 +17,7 @@ export default function Header(props) {
   );
 }
 
-const Container = styled.div`  
+const Container = styled.div`
   padding: 0 10rem;
   .logo {
     img {
@@ -33,5 +33,10 @@ const Container = styled.div`
     border-radius: 0.2rem;
     font-weight: bolder;
     font-size: 1.05rem;
+    transition: all ease-in-out 0.2s;
+    
+    &:hover {
+      background-color: rgba(229, 9, 20, 0.7);
+    }
   }
 `;

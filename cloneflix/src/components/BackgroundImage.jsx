@@ -13,6 +13,7 @@ export default function BackgroundImage() {
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
+  
   img {
     width: 100vw;
     height: 100vh;

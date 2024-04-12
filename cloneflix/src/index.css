@@ -43,11 +43,3 @@ body::-webkit-scrollbar {
 .a-center {
   align-items: center;
 }
-
-.t-center {
-  text-align: center;
-}
-
-.gap-1 {
-  gap: 1rem;
-}
