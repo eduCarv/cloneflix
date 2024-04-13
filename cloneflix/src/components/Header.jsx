@@ -36,7 +36,7 @@ const Container = styled.div`
     transition: all ease-in-out 0.2s;
     
     &:hover {
-      background-color: rgba(229, 9, 20, 0.7);
+      background-color: #b80811;
     }
   }
 `;

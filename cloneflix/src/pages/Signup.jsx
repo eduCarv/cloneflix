@@ -1,11 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import BackgroundImage from "../components/BackgroundImage";
 import Header from "../components/Header";
+import { createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { firebaseAuth } from "../utils/firebase-config";
+import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
+  const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
+  const [formValues, setFormValues] = useState({
+    email: "",
+    password: "",
+  });
+  const handleSignIn = async ()=> {
+    try {
+      const {email, password} = formValues;
+      await createUserWithEmailAndPassword(firebaseAuth, email, password);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  //Quando logado faz o redirecionamento para a página inicial.
+  onAuthStateChanged(firebaseAuth, (currentUser) => {
+    if (currentUser) navigate("/")
+  })
+
   return (
-    <Container>
+    <Container $showPassword={showPassword}>
       <BackgroundImage />
       <div className="content">
         <Header login />
@@ -28,9 +51,35 @@ export default function Signup() {
               name="email"
               minLength="5"
               maxLength="50"
+              value={formValues.email}
+              onChange={(e) =>
+                setFormValues({
+                  ...formValues,
+                  [e.target.name]: e.target.value,
+                })
+              }
             />
-            <button>Vamos lá {">"}</button>
+            {showPassword && (
+              <input
+                type="password"
+                placeholder="Senha"
+                name="password"
+                value={formValues.password}
+                onChange={(e) =>
+                  setFormValues({
+                    ...formValues,
+                    [e.target.name]: e.target.value,
+                  })
+                }
+              />
+            )}
+            {!showPassword && (
+              <button onClick={() => setShowPassword(true)}>
+                Vamos lá {">"}
+              </button>
+            )}
           </div>
+          <button onClick={handleSignIn}>Quero Assistir</button>
         </div>
       </div>
     </Container>
@@ -69,9 +118,9 @@ const Container = styled.div`
     }
     .form {
       display: grid;
-      width: 30%;
-      grid-template-columns: 3fr 1fr;
-      grid-template-rows: 1;
+      width: 40%;
+      grid-template-columns: ${({ $showPassword }) =>
+        $showPassword ? "1fr 1fr" : "2fr 1fr"};
       gap: 0.5rem;
 
       input {
@@ -85,6 +134,10 @@ const Container = styled.div`
         &::placeholder {
           color: white;
         }
+        &:focus {
+          border: 2px solid white;
+          outline: none;
+        }
       }
       button {
         border-radius: 0.25rem;
@@ -97,8 +150,23 @@ const Container = styled.div`
         font-size: 1.2rem;
         transition: all ease-in-out 0.2s;
         &:hover {
-          background-color: rgba(229, 9, 20, 0.7);
+          background-color: #b80811;
         }
+      }
+    }
+
+    button {
+      border-radius: 0.25rem;
+      padding: 0.5rem 1rem;
+      background-color: #e50914;
+      border: none;
+      cursor: pointer;
+      color: white;
+      font-weight: bolder;
+      font-size: 1.2rem;
+      transition: all ease-in-out 0.2s;
+      &:hover {
+        background-color: #b80811;
       }
     }
   }
