@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import BackgroundImage from "../components/BackgroundImage";
 import Header from "../components/Header";
-import { createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+} from "firebase/auth";
 import { firebaseAuth } from "../utils/firebase-config";
 import { useNavigate } from "react-router-dom";
 
@@ -13,19 +16,19 @@ export default function Signup() {
     email: "",
     password: "",
   });
-  const handleSignIn = async ()=> {
+  const handleSignIn = async () => {
     try {
-      const {email, password} = formValues;
+      const { email, password } = formValues;
       await createUserWithEmailAndPassword(firebaseAuth, email, password);
     } catch (err) {
       console.log(err);
     }
-  }
+  };
 
-  //Quando logado faz o redirecionamento para a página inicial.
+  //Quando logado (se existe um currentUser) faz o redirecionamento para a página inicial.
   onAuthStateChanged(firebaseAuth, (currentUser) => {
-    if (currentUser) navigate("/")
-  })
+    if (currentUser) navigate("/");
+  });
 
   return (
     <Container $showPassword={showPassword}>
