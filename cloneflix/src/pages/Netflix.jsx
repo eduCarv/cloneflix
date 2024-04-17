@@ -4,7 +4,8 @@ import backgroundImage from "../assets/home.webp";
 import MovieLogo from "../assets/homeTitle.webp";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import { FaPlay } from "react-icons/fa";
-import styled from "styled-components";
+import styled, { keyframes } from 'styled-components';
+import { useNavigate } from "react-router-dom";
 
 export default function Netflix() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -14,6 +15,8 @@ export default function Netflix() {
     setIsScrolled(window.scrollY === 0 ? false : true);
     return () => (window.onscroll = null);
   };
+
+  const navigate = useNavigate();
 
   return (
     <Container>
@@ -29,8 +32,16 @@ export default function Netflix() {
             <img src={MovieLogo} alt="Capa do Filme" />
           </div>
           <div className="buttons flex">
-            <button className="flex j-center a-center"><FaPlay />Assistir</button>
-            <button className="flex j-center a-center"><AiOutlineInfoCircle /> Mais informações</button>
+            <button
+              className="flex j-center a-center"
+              onClick={() => navigate("/player")}
+            >
+              <FaPlay />
+              Assistir
+            </button>
+            <button className="flex j-center a-center">
+              <AiOutlineInfoCircle /> Mais informações
+            </button>
           </div>
         </div>
       </div>
@@ -38,10 +49,20 @@ export default function Netflix() {
   );
 }
 
+const fadeIn = keyframes`
+from {
+  opacity: 0;
+}
+to {
+  opacity: 1;
+}
+`;
+
 const Container = styled.div`
-  background-color: black;
+  background-color: black;  
   .hero {
     position: relative;
+    animation: ${fadeIn} 1.5s ease-out forwards; 
     .background-image {
       filter: brightness(60%);
     }
@@ -58,7 +79,7 @@ const Container = styled.div`
           width: 100%;
           height: 100%;
           margin-left: 5rem;
-        }
+        }        
       }
       .buttons {
         margin: 5rem;
@@ -72,12 +93,12 @@ const Container = styled.div`
           border-radius: 0.2rem;
           border: none;
           cursor: pointer;
-          transition: all .3s ease-in-out;
+          transition: all 0.3s ease-in-out;
           &:hover {
             opacity: 0.8;
           }
           &:nth-of-type(2) {
-            background-color: rgba(109,109,110,0.7);
+            background-color: rgba(109, 109, 110, 0.7);
             color: white;
             svg {
               font-size: 1.8rem;
