@@ -17,6 +17,10 @@ export default function Login() {
       const { email, password } = formValues;
       await signInWithEmailAndPassword(firebaseAuth, email, password);
     } catch (err) {
+      /*TODO: Criar notificação de erro quando não conseguir fazer o login
+        (senha errada ou outro erro) Aqui neste caso está apenas estourando o 
+        erro no console, precisamos mostrar na tela o que está havendo
+      */
       console.log(err);
     }
   };
