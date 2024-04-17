@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import logo from "../assets/logo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaPowerOff, FaSearch } from "react-icons/fa";
-import { signOut } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { firebaseAuth } from "../utils/firebase-config";
 
 export default function Navbar({ isScrolled }) {
@@ -17,9 +17,11 @@ export default function Navbar({ isScrolled }) {
   const [showSearch, setShowSearch] = useState(false);
   const [inputHover, setInputHover] = useState(false);
 
-  /*
-    TODO: Validar esta routa para ser acessível somente quando logado.
-  */ 
+  const navigate = useNavigate();
+   
+  onAuthStateChanged(firebaseAuth, (currentUser) => {
+    if (!currentUser) navigate("/login");
+  });
 
 
   return (
