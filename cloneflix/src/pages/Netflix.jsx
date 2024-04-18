@@ -1,14 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import backgroundImage from "../assets/home.webp";
 import MovieLogo from "../assets/homeTitle.webp";
 import { AiOutlineInfoCircle } from "react-icons/ai";
 import { FaPlay } from "react-icons/fa";
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes } from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchMovies, getGenres } from "../store";
 
 export default function Netflix() {
   const [isScrolled, setIsScrolled] = useState(false);
+  const dispatch = useDispatch();
+  const genresLoaded = useSelector((state) => state.netflix.genresLoaded);
+  const movies = useSelector((state) => state.netflix.movies);
+
+  useEffect(() => {
+    dispatch(getGenres());
+  });
+
+  useEffect(() => {
+    if (genresLoaded) dispatch(fetchMovies({ type: "all" }));
+  });
 
   /**Ativa ou desativa a classe que vai deixar o nav opaco. */
   window.onscroll = () => {
@@ -59,10 +72,10 @@ to {
 `;
 
 const Container = styled.div`
-  background-color: black;  
+  background-color: black;
   .hero {
     position: relative;
-    animation: ${fadeIn} 1.5s ease-out forwards; 
+    animation: ${fadeIn} 1.5s ease-out forwards;
     .background-image {
       filter: brightness(60%);
     }
@@ -79,7 +92,7 @@ const Container = styled.div`
           width: 100%;
           height: 100%;
           margin-left: 5rem;
-        }        
+        }
       }
       .buttons {
         margin: 5rem;
