@@ -33,12 +33,17 @@ const createArrayFromRawData = (array, moviesArray, genres) => {
       const name = genres.find(({ id }) => id === genre);
       if (name) movieGenres.push(name.name);
     });
+    /*
+      Aqui vamos usar o title no lugar do name. Quando a query para outros 
+      idiomas além do inglês é usado o nome no idioma solicitado vem no title.
+    */
     if (movie.backdrop_path) {
       moviesArray.push({
         id: movie.id,
-        name: movie?.original_name ? movie.original_name : movie.original_title,
+        name: movie?.original_name ? movie.original_name : movie.original_title,        
         image: movie.backdrop_path,
         genres: movieGenres.slice(0, 3),
+        title: movie.title ? movie.title : movie.original_name,
       });
     }
   });
