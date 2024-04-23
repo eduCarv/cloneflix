@@ -26,7 +26,7 @@ Somente os que tenham imagem (backdrop_path) e remove os demais gêneros secund�
 Essa separação é totalmente opcional.
 */
 const createArrayFromRawData = (array, moviesArray, genres) => {
-    //console.log(array)
+  //console.log(array)
   array.forEach((movie) => {
     const movieGenres = [];
     movie.genre_ids.forEach((genre) => {
@@ -40,7 +40,7 @@ const createArrayFromRawData = (array, moviesArray, genres) => {
     if (movie.backdrop_path) {
       moviesArray.push({
         id: movie.id,
-        name: movie?.original_name ? movie.original_name : movie.original_title,        
+        name: movie?.original_name ? movie.original_name : movie.original_title,
         image: movie.backdrop_path,
         genres: movieGenres.slice(0, 3),
         title: movie.title ? movie.title : movie.original_name,
@@ -56,8 +56,8 @@ const getRawData = async (api, genres, paging) => {
       data: { results },
     } = await axios.get(`${api}${paging ? `&page=${i}` : ""}`);
     createArrayFromRawData(results, moviesArray, genres);
-    return moviesArray;
   }
+  return moviesArray;
 };
 
 /** Faz a requisição de todos os filmes que estão "bombando" que tenham idioma e imagem em PT_BR */

@@ -8,7 +8,7 @@ import { BsCheck } from "react-icons/bs";
 import { AiOutlinePlus } from "react-icons/ai";
 import { BiChevronDown } from "react-icons/bi";
 
-export default function Card({ movieData, isLiked = false }) {
+export default React.memo(function Card({ movieData, isLiked = false }) {
   const [isHovered, setIsHovered] = useState(false);
   const navigate = useNavigate();
 
@@ -62,7 +62,7 @@ export default function Card({ movieData, isLiked = false }) {
             <div className="genres flex">
               <ul className="flex">
                 {movieData.genres.map((genre) => {
-                  <li key={genre}>(genre)</li>;
+                  return <li key={genre}>(genre)</li>;
                 })}
               </ul>
             </div>
@@ -71,81 +71,81 @@ export default function Card({ movieData, isLiked = false }) {
       )}
     </Container>
   );
-}
+});
 
 const Container = styled.div`
-    max-width: 230px;
-    width: 230px;
+  max-width: 230px;
+  width: 230px;
+  height: 100%;
+  cursor: pointer;
+  position: relative;
+  img {
+    border-radius: 0.2rem;
+    width: 100%;
     height: 100%;
-    cursor: pointer;
-    position: relative;
-    img {
-        border-radius: 0.2rem;
+    z-index: 10;
+  }
+  .hover {
+    z-index: 90;
+    height: max-content;
+    width: 20rem;
+    position: absolute;
+    top: -18vh;
+    left: 0;
+    border-radius: 0.3rem;
+    box-shadow: rgba(0, 0, 0, 0.75) 0px 3px 10px;
+    background-color: #181818;
+    .image-video-container {
+      position: relative;
+      height: 140px;
+      transition: 3s;
+      img {
         width: 100%;
-        height: 100%;
-        z-index: 10;
-    }
-    .hover {
-        z-index: 90;
-        height: max-content;
-        width: 20rem;
-        position: absolute;
-        top: -18vh;
-        left: 0;
+        height: 140px;
+        object-fit: cover;
         border-radius: 0.3rem;
-        box-shadow: rgba(0,0,0, 0.75) 0px 3px 10px;
-        background-color: #181818;        
-        .image-video-container {                        
-            position: relative;
-            height: 140px;
-            transition: 3s;
-            img {
-                width: 100%;
-                height: 140px;
-                object-fit: cover;
-                border-radius: 0.3rem;
-                top: 0;
-                z-index: 4;
-                position: absolute;
-            }
-            video {
-                width: 100%;
-                height: 140px;
-                object-fit: cover;
-                border-radius: .3rem;
-                top: 0;
-                z-index: 5;
-                position: absolute;
-            }
-        }
-        .info-container {
-            padding: 1rem;
-            gap: .5rem;            
-        }
-        .icons {
-            .controls {
-                display: flex;
-                gap: 1rem;
-            }
-            svg {
-                font-size: 2rem;
-                cursor: pointer;
-                transition: all .3s ease-in-out;
-                &:hover {
-                    color: #b8b8b8
-                }
-            }
-        }
-        .genres {
-            ul {
-                gap: 1rem;
-                li {
-                    padding-right: .7rem;
-                    &:first-of-type {
-                        list-style-type: none;
-                    }
-                }
-            }
-        }
+        top: 0;
+        z-index: 4;
+        position: absolute;
+      }
+      video {
+        width: 100%;
+        height: 140px;
+        object-fit: cover;
+        border-radius: 0.3rem;
+        top: 0;
+        z-index: 5;
+        position: absolute;
+      }
     }
+    .info-container {
+      padding: 1rem;
+      gap: 0.5rem;
+    }
+    .icons {
+      .controls {
+        display: flex;
+        gap: 1rem;
+      }
+      svg {
+        font-size: 2rem;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+        &:hover {
+          color: #b8b8b8;
+        }
+      }
+    }
+    .genres {
+      ul {
+        gap: 1rem;
+        li {
+          padding-right: 0.7rem;
+          &:first-of-type {
+            list-style-type: none;
+          }
+        }
+      }
+    }
+  }
 `;
