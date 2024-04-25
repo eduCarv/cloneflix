@@ -15,8 +15,8 @@ export const getGenres = createAsyncThunk("netflix/genres", async () => {
   const {
     data: { genres },
   } = await axios.get(
-    `${process.env.REACT_APP_TMDB_BASE_URL}/genre/movie/list?api_key=${process.env.REACT_APP_TMDB_API_KEY}`
-  );
+    `${process.env.REACT_APP_TMDB_BASE_URL}/genre/movie/list?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=pt-BR`
+  );  
   return genres;
 });
 
@@ -26,7 +26,7 @@ Somente os que tenham imagem (backdrop_path) e remove os demais gêneros secund�
 Essa separação é totalmente opcional.
 */
 const createArrayFromRawData = (array, moviesArray, genres) => {
-  //console.log(array)
+  //console.log(array)  
   array.forEach((movie) => {
     const movieGenres = [];
     movie.genre_ids.forEach((genre) => {
@@ -68,9 +68,22 @@ export const fetchMovies = createAsyncThunk(
       netflix: { genres },
     } = thunkApi.getState();
     return getRawData(
-      `${process.env.REACT_APP_TMDB_BASE_URL}/trending/${type}/week?api_key=${process.env.REACT_APP_TMDB_API_KEY}&append_to_response=images&language=pt-BR&include_image_language=pt,null`,
+      `${process.env.REACT_APP_TMDB_BASE_URL}/trending/${type}/week?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=pt-BR`,
       genres,
       true
+    );
+  }
+);
+
+export const fetchDataByGenre = createAsyncThunk(
+  "netflix/movies-by-genres",
+  async ({ genre, type }, thunkApi) => {
+    const {
+      netflix: { genres },
+    } = thunkApi.getState();
+    return getRawData(
+      `${process.env.REACT_APP_TMDB_BASE_URL}/discover/${type}?api_key=${process.env.REACT_APP_TMDB_API_KEY}&with_genres=${genre}&language=pt-BR`,
+      genres
     );
   }
 );
@@ -84,6 +97,9 @@ const NetflixSlice = createSlice({
       state.genresLoaded = true;
     });
     builder.addCase(fetchMovies.fulfilled, (state, action) => {
+      state.movies = action.payload;
+    });
+    builder.addCase(fetchDataByGenre.fulfilled, (state, action) => {
       state.movies = action.payload;
     });
   },

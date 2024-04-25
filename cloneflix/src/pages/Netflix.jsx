@@ -18,11 +18,11 @@ export default function Netflix() {
 
   useEffect(() => {
     dispatch(getGenres());
-  });
+  },[]);
 
   useEffect(() => {
     if (genresLoaded) dispatch(fetchMovies({ type: "all" }));
-  });
+  }, []);
 
   /**Ativa ou desativa a classe que vai deixar o nav opaco. */
   window.onscroll = () => {
