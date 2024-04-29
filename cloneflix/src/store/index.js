@@ -16,7 +16,7 @@ export const getGenres = createAsyncThunk("netflix/genres", async () => {
     data: { genres },
   } = await axios.get(
     `${process.env.REACT_APP_TMDB_BASE_URL}/genre/movie/list?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=pt-BR`
-  );  
+  );
   return genres;
 });
 
@@ -26,7 +26,7 @@ Somente os que tenham imagem (backdrop_path) e remove os demais gêneros secund�
 Essa separação é totalmente opcional.
 */
 const createArrayFromRawData = (array, moviesArray, genres) => {
-  //console.log(array)  
+  //console.log(array)
   array.forEach((movie) => {
     const movieGenres = [];
     movie.genre_ids.forEach((genre) => {
@@ -88,6 +88,28 @@ export const fetchDataByGenre = createAsyncThunk(
   }
 );
 
+export const getUserLikedMovies = createAsyncThunk(
+  "cloneflix/getLiked",
+  async (email) => {
+    const response = await axios.get(
+      `http://localhost:5000/api/user/liked/${email}`
+    );
+    return response.data.movies;
+  }
+);
+
+export const removeFromLikedMovies = createAsyncThunk(
+  "cloneflix/deleteLiked",
+  async ({email, movieId}) => {
+    const response = await axios.put(
+      `http://localhost:5000/api/user/delete`, {
+        email, movieId
+      }
+    );
+    return response.data.movies;
+  }
+);
+
 const NetflixSlice = createSlice({
   name: "Netflix",
   initialState,
@@ -100,6 +122,12 @@ const NetflixSlice = createSlice({
       state.movies = action.payload;
     });
     builder.addCase(fetchDataByGenre.fulfilled, (state, action) => {
+      state.movies = action.payload;
+    });
+    builder.addCase(getUserLikedMovies.fulfilled, (state, action) => {
+      state.movies = action.payload;
+    });
+    builder.addCase(removeFromLikedMovies.fulfilled, (state, action) => {
       state.movies = action.payload;
     });
   },

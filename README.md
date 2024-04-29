@@ -16,7 +16,7 @@ ____________________
 
 * Criação de Usuário e Senha com Firebase
 * Login/Logout
-* Filtro de filmes por gênero
+* Filtro de filmes e séries por gênero
 * Adicionar ou remover filmes a "minha lista"
 * Ver os videos no player
 * Função picture-in-picture 
@@ -29,9 +29,15 @@ Este projeto utilza a biblioteca [TMDB - The Movie Database](https://www.themovi
 
 * Instalar as dependencias do React
 * Instalar as dependencias do Node
-* Inicie o back (Node App) - cloneflix-api
-* Inicie o front (React App) - cloneflix
+* Inicie o back (Node App) - cloneflix-api (npm start)
+* Inicie o front (React App) - cloneflix (npm start)
+
+# Melhorias Sugeridas
+* Responsividade
+* Carrosel nos sliders
+* Efeito Schimmer
+* Realce de botões e efeitos visuais
 
 # Status do Projeto
 
-* Em construção... 
+* v1.0 completa.
