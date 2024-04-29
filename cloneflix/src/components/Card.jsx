@@ -7,10 +7,30 @@ import { RiThumbUpFill, RiThumbDownFill } from "react-icons/ri";
 import { BsCheck } from "react-icons/bs";
 import { AiOutlinePlus } from "react-icons/ai";
 import { BiChevronDown } from "react-icons/bi";
+import { firebaseAuth } from "../utils/firebase-config";
+import { onAuthStateChanged } from "firebase/auth";
+import axios from "axios";
 
 export default React.memo(function Card({ movieData, isLiked = false }) {
   const [isHovered, setIsHovered] = useState(false);
+  const [email, setEmail] = useState(undefined);
   const navigate = useNavigate();
+
+  onAuthStateChanged(firebaseAuth, (currentUser) => {
+    if (currentUser) setEmail(currentUser.email);
+    else navigate("/login");
+  });
+
+  const addToList = async () => {
+    try {
+      await axios.post("http://localhost:5000/api/user/add", {
+        email,
+        data: movieData,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <Container
@@ -52,7 +72,10 @@ export default React.memo(function Card({ movieData, isLiked = false }) {
                 {isLiked ? (
                   <BsCheck title="Remover da Minha Lista" />
                 ) : (
-                  <AiOutlinePlus title="Adicionar à Minha Lista" />
+                  <AiOutlinePlus
+                    title="Adicionar à Minha Lista"
+                    onClick={addToList}
+                  />
                 )}
               </div>
               <div className="info">
@@ -62,7 +85,7 @@ export default React.memo(function Card({ movieData, isLiked = false }) {
             <div className="genres flex">
               <ul className="flex">
                 {movieData.genres.map((genre) => {
-                  return <li key={genre}>(genre)</li>;
+                  return <li key={genre}>{genre}</li>;
                 })}
               </ul>
             </div>
