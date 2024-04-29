@@ -91,3 +91,11 @@ const Container = styled.div`
     }
   }
 `;
+/*TODO:  
+  -centralizar os botões de left e right
+  -além de destacá-los com hover.
+  -Corrigir bug de quando move os slides, está dando um erro de ficar escondido
+  -criar a rotação do carrocel quando termina de navegar no right (loop)
+  *como o intuito deste projeto é apenas demonstrar o potencial das habilidades
+  estes todos ficarão em uma prioridade menor em relação a outros projetos.
+*/ 
